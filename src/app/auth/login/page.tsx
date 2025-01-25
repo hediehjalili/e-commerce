@@ -6,6 +6,8 @@ import {
   TextField,
   Button,
   Link,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CacheProvider } from "@emotion/react";
@@ -13,6 +15,10 @@ import createCache from "@emotion/cache";
 import { prefixer } from "stylis";
 import rtlPlugin from "stylis-plugin-rtl";
 import Image from "next/image";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useState } from "react";
 
 const theme = createTheme({
   direction: "rtl",
@@ -33,13 +39,18 @@ const theme = createTheme({
   },
 });
 
-// کش RTL برای استایل‌ها
 const cacheRTL = createCache({
   key: "muirtl",
   stylisPlugins: [prefixer, rtlPlugin],
 });
 
 export default function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
     <CacheProvider value={cacheRTL}>
       <ThemeProvider theme={theme}>
@@ -64,7 +75,7 @@ export default function LoginPage() {
             }}
           >
             <Typography variant="h5" sx={{ color: "#606C38", mb: 3 }}>
-              w!n Store
+              به w!n Store خوش آمدید
             </Typography>
             <Box sx={{ mb: 3 }}>
               <Image
@@ -83,19 +94,39 @@ export default function LoginPage() {
                 maxWidth: 400,
               }}
             >
+              {/* Email Field with Icon at End */}
               <TextField
                 fullWidth
-                label="آدرس ایمیل"
+                label="Email"
+                placeholder="ایمیل خود را وارد کنید"
                 margin="normal"
                 variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <MailOutlineIcon />
+                    </InputAdornment>
+                  ),
+                }}
               />
 
+              {/* Password Field with Eye Icon */}
               <TextField
                 fullWidth
-                label="رمز عبور"
-                type="password"
+                label="Password"
+                placeholder="رمز عبور را وارد کنید"
+                type={showPassword ? "text" : "password"}
                 margin="normal"
                 variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={handleTogglePasswordVisibility}>
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
 
               <Button
@@ -116,10 +147,10 @@ export default function LoginPage() {
 
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Link href="#" variant="body2">
-                  ثبت نام
+                  <span style={{ color: "#a55b1d" }}>ثبت نام</span>
                 </Link>
                 <Link href="#" variant="body2">
-                  بازیابی رمز عبور
+                  <span style={{ color: "#a55b1d" }}>بازیابی رمز عبور</span>
                 </Link>
               </Box>
             </Box>
@@ -129,16 +160,16 @@ export default function LoginPage() {
           <Box
             sx={{
               flex: 1,
-              position: "relative", // For Image positioning
-              minHeight: "100vh", // Full height
+              position: "relative",
+              minHeight: "100vh",
             }}
           >
             <Image
-              src="/pic.png" // Path to the image in the public folder
+              src="/pic.png"
               alt="Background"
-              layout="fill" // Makes the image cover the entire box
-              objectFit="cover" // Ensures the image scales properly
-              priority // Optimizes image loading
+              layout="fill"
+              objectFit="cover"
+              priority
             />
           </Box>
         </Box>
