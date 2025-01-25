@@ -1,102 +1,148 @@
 "use client";
-import React from "react"; // Removed unused import: useState
 import {
+  CssBaseline,
   Box,
-  Stack,
-  TextField,
   Typography,
-  FormControl,
-  InputLabel,
-  Input,
-  InputAdornment,
-  IconButton,
+  TextField,
   Button,
-  Checkbox,
-  FormControlLabel,
-  Link as MuiLink,
+  Link,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Link from "next/link";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { CacheProvider } from "@emotion/react";
+import createCache from "@emotion/cache";
+import { prefixer } from "stylis";
+import rtlPlugin from "stylis-plugin-rtl";
+import Image from "next/image";
 
-export default function Login() {
-  const [showPassword, setShowPassword] = React.useState(false);
+const theme = createTheme({
+  direction: "rtl",
+  typography: {
+    fontFamily: "Vazir, Arial",
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: `
+          @font-face {
+            font-family: 'Vazir';
+            font-style: normal;
+            font-display: swap;
+            src: url('/fonts/Vazir.woff2') format('woff2');
+          }
+        `,
+    },
+  },
+});
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+// کش RTL برای استایل‌ها
+const cacheRTL = createCache({
+  key: "muirtl",
+  stylisPlugins: [prefixer, rtlPlugin],
+});
 
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-
-  const handleMouseUpPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
+export default function LoginPage() {
   return (
-    <Stack justifyContent={"center"} alignItems={"center"}>
-      <Box
-        width={"400px"}
-        height={"500px"}
-        padding={"20px"}
-        display="flex"
-        flexDirection={"column"}
-        marginTop={"100px"}
-        gap={"20px"}
-      >
-        <Typography variant="h4" component="h4">
-          ساخت حساب کاربری
-        </Typography>
-        <Typography variant="h6" component="h6">
-          اطلاعات کاربری خود را وارد کنید
-        </Typography>
-        <TextField
-          size="small"
-          fullWidth
-          name="email"
-          label="ایمیل یا نام کاربری"
-          variant="standard"
-          maxRows={4}
-          multiline
-          type="email"
-        />
-        <FormControl variant="standard">
-          <InputLabel htmlFor="standard-adornment-password">
-            Password
-          </InputLabel>
-          <Input
-            id="standard-adornment-password"
-            type={showPassword ? "text" : "password"}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label={
-                    showPassword ? "hide the password" : "display the password"
-                  }
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  onMouseUp={handleMouseUpPassword}
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
+    <CacheProvider value={cacheRTL}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Box
-          display={"flex"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
+          sx={{
+            display: "flex",
+            minHeight: "100vh", // Full height
+            bgcolor: "background.default", // Background color
+          }}
         >
-          <FormControlLabel control={<Checkbox />} label="مرا بخاطر بسپار" />
-          <MuiLink component={Link} href="#">
-            پسورد خود را فراموش کرده ام ؟
-          </MuiLink>
+          {/* Left Side - Form */}
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              p: 3,
+              bgcolor: "white",
+            }}
+          >
+            <Typography variant="h5" sx={{ color: "#606C38", mb: 3 }}>
+              w!n Store
+            </Typography>
+            <Box sx={{ mb: 3 }}>
+              <Image
+                src="/logo.svg"
+                alt="لوگو"
+                width={148}
+                height={48}
+                objectFit="contain"
+              />
+            </Box>
+            <Box
+              component="form"
+              sx={{
+                mt: 2,
+                width: "100%",
+                maxWidth: 400,
+              }}
+            >
+              <TextField
+                fullWidth
+                label="آدرس ایمیل"
+                margin="normal"
+                variant="outlined"
+              />
+
+              <TextField
+                fullWidth
+                label="رمز عبور"
+                type="password"
+                margin="normal"
+                variant="outlined"
+              />
+
+              <Button
+                fullWidth
+                variant="contained"
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  padding: 2,
+                  backgroundColor: "#606C38",
+                  "&:hover": {
+                    backgroundColor: "#a55b1d",
+                  },
+                }}
+              >
+                ورود
+              </Button>
+
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Link href="#" variant="body2">
+                  ثبت نام
+                </Link>
+                <Link href="#" variant="body2">
+                  بازیابی رمز عبور
+                </Link>
+              </Box>
+            </Box>
+          </Box>
+
+          {/* Right Side - Full Screen Image */}
+          <Box
+            sx={{
+              flex: 1,
+              position: "relative", // For Image positioning
+              minHeight: "100vh", // Full height
+            }}
+          >
+            <Image
+              src="/pic.png" // Path to the image in the public folder
+              alt="Background"
+              layout="fill" // Makes the image cover the entire box
+              objectFit="cover" // Ensures the image scales properly
+              priority // Optimizes image loading
+            />
+          </Box>
         </Box>
-        <Button variant="contained">ساخت حساب کاربری</Button>
-      </Box>
-    </Stack>
+      </ThemeProvider>
+    </CacheProvider>
   );
 }
