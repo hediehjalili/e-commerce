@@ -146,7 +146,7 @@ export default function LoginPage() {
               </Button>
 
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Link href="#" variant="body2">
+                <Link href="/auth/register" variant="body2">
                   <span style={{ color: "#a55b1d" }}>ثبت نام</span>
                 </Link>
                 <Link href="#" variant="body2">

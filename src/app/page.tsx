@@ -26,33 +26,37 @@ import Image from "next/image";
 
 // داده‌های نمونه
 const categories = [
-  { name: "الکترونیک", image: "/images/categories/electronics.jpg" },
-  { name: "مد و پوشاک", image: "/images/categories/fashion.jpg" },
-  { name: "لوازم خانگی", image: "/images/categories/appliances.jpg" },
-  { name: "کودک و نوزاد", image: "/images/categories/babies.jpg" },
+  { name: "لپ تاپ", image: "/images/laptop.png" },
+  { name: "موبایل", image: "/images/mobile.png" },
+  { name: "تبلت", image: "/images/tablet.png" },
+  { name: "هدفون", image: "/images/10.png" },
+  { name: "ساعت و مچ بند هوشمند", image: "/images/watch.png" },
+  { name: "کنسول بازی", image: "/images/consolee.png" },
+  { name: "دوربین", image: "/images/camera.png" },
+  { name: "اسپیکر", image: "/images/speaker.png" },
 ];
 
 const deals = [
   {
     id: 1,
-    name: "لپ تاپ ایسوس",
-    description: "لپ تاپ گیمینگ 16 اینچی",
+    name: "لپ تاپ اپل",
+    description: "لپ تاپپ مدل MacBook Pro MRW23 2023 LLA-M3 Pro-36GB RAM-512GB",
     price: "۳۰,۰۰۰,۰۰۰ تومان",
-    image: "/images/products/laptop.jpg",
+    image: "/images/macbook.png",
   },
   {
     id: 2,
-    name: "هدفون بیسیم",
-    description: "هدفون نویزکنسلینگ",
+    name: "هدفون بلوتوثی",
+    description: "هدست بلوتوثی موزیک آپولو مدل AP200TWS",
     price: "۲,۵۰۰,۰۰۰ تومان",
-    image: "/images/products/headphone.jpg",
+    image: "/images/heads.png",
   },
   {
     id: 3,
     name: "اسمارت واچ",
     description: "ساعت هوشمند اندروید",
     price: "۵,۰۰۰,۰۰۰ تومان",
-    image: "/images/products/smartwatch.jpg",
+    image: "/images/wa.png",
   },
 ];
 
