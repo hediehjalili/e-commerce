@@ -1,4 +1,5 @@
 "use client";
+
 import {
   AppBar,
   Toolbar,
@@ -6,7 +7,6 @@ import {
   InputBase,
   Grid,
   Card,
-  CardMedia,
   CardContent,
   Typography,
   Button,
@@ -15,16 +15,26 @@ import {
   MenuItem,
   Box,
   Stack,
+  Link,
+  List,
+  ListItem,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import PhoneIcon from "@mui/icons-material/Phone";
+import EmailIcon from "@mui/icons-material/Email";
+
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import InstagramIcon from "@mui/icons-material/Instagram";
+
 import React, { useState } from "react";
 import Image from "next/image";
+import { Directions } from "@mui/icons-material";
 
-// داده‌های نمونه
 const categories = [
   { name: "لپ تاپ", image: "/images/laptop.png" },
   { name: "موبایل", image: "/images/mobile.png" },
@@ -40,7 +50,7 @@ const deals = [
   {
     id: 1,
     name: "لپ تاپ اپل",
-    description: "لپ تاپپ مدل MacBook Pro MRW23 2023 LLA-M3 Pro-36GB RAM-512GB",
+    description: "لپ تاپپ مدل MacBook Air",
     price: "۳۰,۰۰۰,۰۰۰ تومان",
     image: "/images/macbook.png",
   },
@@ -174,7 +184,7 @@ export default function HomePage() {
                 border: "1px solid #e0e0e0",
                 flexGrow: 1,
                 maxWidth: "500px",
-                flexDirection: "row-reverse", // تغییر جهت ردیف به راست
+                flexDirection: "row-reverse",
               }}
             >
               <InputBase
@@ -204,7 +214,11 @@ export default function HomePage() {
               <IconButton sx={{ color: "#606C38" }}>
                 <FavoriteBorderIcon fontSize="medium" />
               </IconButton>
-              <IconButton sx={{ color: "#606C38" }}>
+              <IconButton
+                sx={{ color: "#606C38" }}
+                component="a"
+                href="/orders"
+              >
                 <ShoppingCartIcon fontSize="medium" />
               </IconButton>
             </Stack>
@@ -400,6 +414,258 @@ export default function HomePage() {
           ))}
         </Grid>
       </Container>
+      <Box sx={{ backgroundColor: "#606C38", color: "white", mt: 8 }}>
+        <Container
+          maxWidth="xl"
+          sx={{
+            py: 8,
+            direction: "rtl",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            gap: 4,
+          }}
+        >
+          {/* Branding Section */}
+          <Box
+            sx={{
+              flex: "1",
+              minWidth: "200px",
+              textAlign: { xs: "center", md: "right" },
+            }}
+          >
+            {/* Logo */}
+            <Box sx={{ mb: 2 }}>
+              <Image
+                src="/logo.svg"
+                alt="Winstore Logo"
+                width={120}
+                height={50}
+                style={{ maxWidth: "120px" }}
+              />
+            </Box>
+            {/* Contact Info */}
+            <Typography
+              sx={{
+                fontFamily: "Vazir",
+                fontSize: "1rem",
+                fontWeight: "bold",
+                color: "#e0e0e0",
+                mb: 1,
+              }}
+            >
+              با ما در تماس باشید
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: "Vazir",
+                fontSize: "0.9rem",
+                color: "#e0e0e0",
+                mb: 1,
+              }}
+            >
+              +09 11 666 <br />
+              +09 11 7701
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: "Vazir",
+                fontSize: "0.9rem",
+                color: "#e0e0e0",
+                mb: 2,
+              }}
+            >
+              آدرس ایمیل <br />
+              info@winstore.io
+            </Typography>
+            {/* Social Media Icons */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: { xs: "center", md: "flex-start" },
+                gap: 2,
+              }}
+            >
+              <Link href="#" color="inherit">
+                <FacebookIcon
+                  sx={{
+                    fontSize: "24px",
+                    color: "white",
+                    "&:hover": { color: "#4267B2" },
+                  }}
+                />
+              </Link>
+              <Link href="#" color="inherit">
+                <TwitterIcon
+                  sx={{
+                    fontSize: "24px",
+                    color: "white",
+                    "&:hover": { color: "#1DA1F2" },
+                  }}
+                />
+              </Link>
+              <Link href="#" color="inherit">
+                <LinkedInIcon
+                  sx={{
+                    fontSize: "24px",
+                    color: "white",
+                    "&:hover": { color: "#0A66C2" },
+                  }}
+                />
+              </Link>
+              <Link href="#" color="inherit">
+                <InstagramIcon
+                  sx={{
+                    fontSize: "24px",
+                    color: "white",
+                    "&:hover": { color: "#E4405F" },
+                  }}
+                />
+              </Link>
+            </Box>
+          </Box>
+
+          {/* Popular Categories */}
+          <Box
+            sx={{
+              flex: "1",
+              minWidth: "200px",
+              textAlign: "right",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+            }}
+          >
+            <Typography
+              variant="h6"
+              sx={{
+                mb: 2,
+                fontFamily: "Vazir",
+                fontWeight: "bold",
+              }}
+            >
+              دسته‌بندی‌های محبوب
+            </Typography>
+            <List sx={{ gap: 1 }}>
+              {[
+                "لپ تاپ",
+                "موبایل",
+                "تبلت",
+                "هدفون",
+                "ساعت هوشمند",
+                "کنسول بازی",
+                "دوربین",
+                "اسپیکر",
+              ].map((item) => (
+                <ListItem
+                  key={item}
+                  sx={{ justifyContent: "flex-end", px: 0, gap: 1 }}
+                >
+                  <Link href="#" color="inherit" sx={{ fontFamily: "Vazir" }}>
+                    {item}
+                  </Link>
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+
+          {/* Information */}
+          <Box sx={{ flex: "1", minWidth: "200px" }}>
+            <Typography
+              variant="h6"
+              sx={{
+                mb: 2,
+                fontFamily: "Vazir",
+                fontWeight: "bold",
+                textAlign: "left", // Ensures title is aligned to the left
+              }}
+            >
+              اطلاعات
+            </Typography>
+            <List sx={{ gap: 1 }}>
+              {[
+                "درباره ما",
+                "سوالات متداول",
+                "شرایط بازگشت",
+                "حریم خصوصی",
+                "قوانین و مقررات",
+              ].map((item) => (
+                <ListItem
+                  key={item}
+                  sx={{
+                    justifyContent: "flex-end", // Aligns items to the left
+                    px: 0,
+                    gap: 1,
+                  }}
+                >
+                  <Link
+                    href="#"
+                    color="inherit"
+                    sx={{
+                      fontFamily: "Vazir",
+                      textAlign: "left", // Ensures text is also aligned to the left
+                    }}
+                  >
+                    {item}
+                  </Link>
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+
+          {/* Support */}
+          <Box sx={{ flex: "1", minWidth: "200px" }}>
+            <Typography
+              variant="h6"
+              sx={{
+                mb: 2,
+                fontFamily: "Vazir",
+                fontWeight: "bold",
+                textAlign: "left", // Align title to the left
+              }}
+            >
+              پشتیبانی
+            </Typography>
+            <List sx={{ gap: 1 }}>
+              {["حساب کاربری", "لیست علاقه‌مندی‌ها", "فروشنده شوید"].map(
+                (item) => (
+                  <ListItem
+                    key={item}
+                    sx={{ justifyContent: "flex-end", px: 0, gap: 1 }}
+                  >
+                    <Link
+                      href="#"
+                      color="inherit"
+                      sx={{ fontFamily: "Vazir", textAlign: "left" }}
+                    >
+                      {item}
+                    </Link>
+                  </ListItem>
+                )
+              )}
+            </List>
+          </Box>
+        </Container>
+
+        {/* Copyright */}
+        <Box
+          sx={{
+            borderTop: "1px solid rgba(255,255,255,0.1)",
+            textAlign: "center",
+            backgroundColor: "#BC6C25",
+            py: 2,
+            direction: "rtl",
+          }}
+        >
+          <Typography
+            variant="body2"
+            sx={{ fontFamily: "Vazir", color: "white" }}
+          >
+            © 2025 تمامی حقوق مادی و معنوی این سایت متعلق به فروشگاه وین
+            می‌باشد.
+          </Typography>
+        </Box>
+      </Box>
     </Box>
   );
 }
