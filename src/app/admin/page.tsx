@@ -13,14 +13,20 @@ export interface Product {
   stock: number;
 }
 
+export interface NewProduct {
+  name: string;
+  price: string;
+  stock: string;
+}
+
 export default function ProductsPage() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [products, setProducts] = useState<Product[]>([
     { id: 1, name: "لپ تاپ اپل", price: "۳۰,۰۰۰,۰۰۰ تومان", stock: 15 },
     { id: 2, name: "هدفون بلوتوثی", price: "۲,۵۰۰,۰۰۰ تومان", stock: 30 },
   ]);
 
-  const [newProduct, setNewProduct] = useState({
+  const [newProduct, setNewProduct] = useState<NewProduct>({
     name: "",
     price: "",
     stock: "",

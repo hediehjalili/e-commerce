@@ -1,4 +1,5 @@
 "use client";
+import React, { JSX, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -21,10 +22,9 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Image from "next/image";
-import { useState } from "react";
 
-export default function Header() {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+const Header: React.FC = (): JSX.Element => {
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
   const toggleDrawer = (open: boolean) => {
     setDrawerOpen(open);
@@ -82,21 +82,21 @@ export default function Header() {
 
       {/* User Icons */}
       <List>
-        <ListItem button>
+        <ListItem>
           <ListItemIcon>
             <AccountCircleIcon sx={{ color: "#606C38" }} />
           </ListItemIcon>
           <ListItemText primary="پروفایل" sx={{ fontFamily: "Vazir" }} />
         </ListItem>
         <Divider />
-        <ListItem button>
+        <ListItem>
           <ListItemIcon>
             <FavoriteBorderIcon sx={{ color: "#606C38" }} />
           </ListItemIcon>
           <ListItemText primary="علاقه‌مندی‌ها" sx={{ fontFamily: "Vazir" }} />
         </ListItem>
         <Divider />
-        <ListItem button>
+        <ListItem>
           <ListItemIcon>
             <ShoppingCartIcon sx={{ color: "#606C38" }} />
           </ListItemIcon>
@@ -220,4 +220,6 @@ export default function Header() {
       </Drawer>
     </AppBar>
   );
-}
+};
+
+export default Header;

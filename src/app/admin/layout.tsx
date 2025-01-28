@@ -1,4 +1,3 @@
-"use client";
 import * as React from "react";
 import {
   Box,
@@ -27,12 +26,13 @@ import {
 
 const drawerWidth = 280;
 
-export default function AdminLayout({
-  children,
-}: {
+// Define props for AdminLayout
+interface AdminLayoutProps {
   children: React.ReactNode;
-}) {
-  const [open, setOpen] = React.useState(false);
+}
+
+export default function AdminLayout({ children }: AdminLayoutProps) {
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const handleDrawerToggle = () => {
     setOpen(!open);
@@ -78,16 +78,8 @@ export default function AdminLayout({
       <List sx={{ mt: 2 }}>
         {[
           { text: "داشبورد", icon: <DashboardIcon />, path: "/admin" },
-          {
-            text: "محصولات",
-            icon: <ProductsIcon />,
-            path: "/admin/products",
-          },
-          {
-            text: "دسته‌بندی‌ها",
-            icon: <CategoriesIcon />,
-            path: "/admin/categories",
-          },
+          { text: "محصولات", icon: <ProductsIcon />, path: "/admin/products" },
+          { text: "دسته‌بندی‌ها", icon: <CategoriesIcon />, path: "/admin/categories" },
           { text: "سفارشات", icon: <OrdersIcon />, path: "/admin/orders" },
           { text: "کاربران", icon: <UsersIcon />, path: "/admin/users" },
         ].map((item) => (

@@ -1,4 +1,5 @@
 "use client";
+import React, { useState, ChangeEvent } from "react";
 import {
   Box,
   Button,
@@ -15,11 +16,11 @@ import {
   DialogContent,
   DialogActions,
   IconButton,
+  Typography,
 } from "@mui/material";
 import { Add, Edit, Delete } from "@mui/icons-material";
-import { Typography } from "@mui/material";
-import { useState } from "react";
 
+// Define the Product interface
 interface Product {
   id: number;
   name: string;
@@ -28,51 +29,46 @@ interface Product {
 }
 
 export default function ProductsPage() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [products, setProducts] = useState<Product[]>([
     { id: 1, name: "لپ تاپ اپل", price: "۳۰,۰۰۰,۰۰۰ تومان", stock: 15 },
     { id: 2, name: "هدفون بلوتوثی", price: "۲,۵۰۰,۰۰۰ تومان", stock: 30 },
   ]);
-  
-  // حالت‌های فرم جدید
-  const [newProduct, setNewProduct] = useState({
+
+  const [newProduct, setNewProduct] = useState<Omit<Product, "id">>({
     name: "",
     price: "",
-    stock: "",
+    stock: 0,
   });
 
+  // Open the dialog
   const handleOpen = () => setOpen(true);
+
+  // Close the dialog
   const handleClose = () => {
     setOpen(false);
-    // ریست کردن فرم پس از بستن دیالوگ
-    setNewProduct({ name: "", price: "", stock: "" });
+    setNewProduct({ name: "", price: "", stock: 0 }); // Reset form
   };
 
-  // مدیریت تغییرات فرم
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle input change
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setNewProduct((prev) => ({ ...prev, [name]: value }));
+    setNewProduct((prev) => ({
+      ...prev,
+      [name]: name === "stock" ? Number(value) : value,
+    }));
   };
 
-  // افزودن محصول جدید
+  // Add a new product
   const handleAddProduct = () => {
-    if (newProduct.name && newProduct.price && newProduct.stock) {
-      const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-      
-      setProducts((prev) => [
-        ...prev,
-        {
-          id: newId,
-          name: newProduct.name,
-          price: `${Number(newProduct.price).toLocaleString()} تومان`,
-          stock: Number(newProduct.stock),
-        },
-      ]);
+    if (newProduct.name.trim() && newProduct.price.trim() && newProduct.stock > 0) {
+      const newId = products.length > 0 ? Math.max(...products.map((p) => p.id)) + 1 : 1;
+      setProducts((prev) => [...prev, { id: newId, ...newProduct }]);
       handleClose();
     }
   };
 
-  // حذف محصول
+  // Delete a product
   const handleDeleteProduct = (id: number) => {
     setProducts((prev) => prev.filter((product) => product.id !== id));
   };
@@ -96,44 +92,28 @@ export default function ProductsPage() {
         </Button>
       </Box>
 
+      {/* Product Table */}
       <TableContainer component={Paper}>
         <Table>
           <TableHead sx={{ backgroundColor: "#606C38" }}>
             <TableRow>
-              <TableCell sx={{ color: "white", fontFamily: "Vazir" }}>
-                نام محصول
-              </TableCell>
-              <TableCell sx={{ color: "white", fontFamily: "Vazir" }}>
-                قیمت
-              </TableCell>
-              <TableCell sx={{ color: "white", fontFamily: "Vazir" }}>
-                موجودی
-              </TableCell>
-              <TableCell sx={{ color: "white", fontFamily: "Vazir" }}>
-                عملیات
-              </TableCell>
+              <TableCell sx={{ color: "white", fontFamily: "Vazir" }}>نام محصول</TableCell>
+              <TableCell sx={{ color: "white", fontFamily: "Vazir" }}>قیمت</TableCell>
+              <TableCell sx={{ color: "white", fontFamily: "Vazir" }}>موجودی</TableCell>
+              <TableCell sx={{ color: "white", fontFamily: "Vazir" }}>عملیات</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {products.map((product) => (
               <TableRow key={product.id}>
-                <TableCell sx={{ fontFamily: "Vazir" }}>
-                  {product.name}
-                </TableCell>
-                <TableCell sx={{ fontFamily: "Vazir" }}>
-                  {product.price}
-                </TableCell>
-                <TableCell sx={{ fontFamily: "Vazir" }}>
-                  {product.stock}
-                </TableCell>
+                <TableCell sx={{ fontFamily: "Vazir" }}>{product.name}</TableCell>
+                <TableCell sx={{ fontFamily: "Vazir" }}>{product.price}</TableCell>
+                <TableCell sx={{ fontFamily: "Vazir" }}>{product.stock}</TableCell>
                 <TableCell>
                   <IconButton color="primary">
                     <Edit />
                   </IconButton>
-                  <IconButton 
-                    color="error"
-                    onClick={() => handleDeleteProduct(product.id)}
-                  >
+                  <IconButton color="error" onClick={() => handleDeleteProduct(product.id)}>
                     <Delete />
                   </IconButton>
                 </TableCell>
@@ -143,11 +123,9 @@ export default function ProductsPage() {
         </Table>
       </TableContainer>
 
-      {/* دیالوگ افزودن محصول */}
+      {/* Dialog for Adding a Product */}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle sx={{ fontFamily: "Vazir" }}>
-          افزودن محصول جدید
-        </DialogTitle>
+        <DialogTitle sx={{ fontFamily: "Vazir" }}>افزودن محصول جدید</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -163,7 +141,6 @@ export default function ProductsPage() {
             margin="dense"
             label="قیمت (تومان)"
             name="price"
-            type="number"
             fullWidth
             value={newProduct.price}
             onChange={handleInputChange}
@@ -186,11 +163,11 @@ export default function ProductsPage() {
           </Button>
           <Button
             variant="contained"
+            onClick={handleAddProduct}
             sx={{
               backgroundColor: "#BC6C25",
               "&:hover": { backgroundColor: "#a55b1d" },
             }}
-            onClick={handleAddProduct}
           >
             ذخیره
           </Button>

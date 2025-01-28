@@ -1,4 +1,5 @@
 "use client";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -15,25 +16,33 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useState } from "react";
 import Image from "next/image";
 
-const CartPage = () => {
-  const [items, setItems] = useState([
-    { id: 1, name: "کالا", quantity: 1, price: 65200 },
-    { id: 2, name: "کالا", quantity: 1, price: 65200 },
-    { id: 3, name: "کالا", quantity: 1, price: 65200 },
+// تعریف نوع برای آیتم‌های سبد خرید
+interface CartItem {
+  id: number;
+  name: string;
+  quantity: number;
+  price: number;
+}
+
+const CartPage: React.FC = () => {
+  const [items, setItems] = useState<CartItem[]>([
+    { id: 1, name: "کالا ۱", quantity: 1, price: 65200 },
+    { id: 2, name: "کالا ۲", quantity: 1, price: 65200 },
+    { id: 3, name: "کالا ۳", quantity: 1, price: 65200 },
   ]);
 
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("sm")
   );
+
   const total = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
-  ); // Fixed total calculation to include quantity
+  );
 
-  const handleDelete = (itemId: number) => {
+  const handleDelete = (itemId: number): void => {
     setItems(items.filter((item) => item.id !== itemId));
   };
 
@@ -67,8 +76,7 @@ const CartPage = () => {
               height={isMobile ? 30 : 40}
             />
           </IconButton>
-        </Toolbar>{" "}
-        {/* Added missing closing tag for Toolbar */}
+        </Toolbar>
       </AppBar>
 
       {/* محتوای اصلی */}
@@ -106,8 +114,7 @@ const CartPage = () => {
                     fontWeight="bold"
                     variant={isMobile ? "body2" : "body1"}
                   >
-                    {(item.price * item.quantity).toLocaleString()} تومن{" "}
-                    {/* Fixed price display to include quantity */}
+                    {(item.price * item.quantity).toLocaleString()} تومن
                   </Typography>
                 </Box>
                 <IconButton
@@ -148,6 +155,7 @@ const CartPage = () => {
                 sx={{
                   bgcolor: "#606C38",
                   color: "white",
+                  "&:hover": { bgcolor: "#4a5530" },
                 }}
               >
                 ادامه خرید
@@ -159,6 +167,7 @@ const CartPage = () => {
                 sx={{
                   bgcolor: "#BC6C25",
                   color: "white",
+                  "&:hover": { bgcolor: "#a55b1d" },
                 }}
               >
                 پرداخت نهایی

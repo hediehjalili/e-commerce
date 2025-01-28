@@ -3,13 +3,11 @@ import { Vazirmatn } from "next/font/google";
 import ThemeProvider from "@/theme/ThemeProvider";
 import "./globals.css";
 
-
-
 const Vazir = Vazirmatn({
-  weight:["300","400","500","700","800","900"],
+  weight: ["300", "400", "500", "700", "800", "900"],
   variable: "--font-vazir-sans",
   subsets: ["arabic", "latin"],
-  });
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,9 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl">
-<ThemeProvider>
-<body className={`${Vazir.variable}`}>{children}</body>
-</ThemeProvider>
+      <body className={`${Vazir.variable}`}>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

@@ -1,7 +1,9 @@
 "use client";
+
+import React, { JSX, useState } from "react";
 import {
-  CssBaseline,
   Box,
+  CssBaseline,
   Typography,
   TextField,
   Button,
@@ -18,82 +20,76 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// تنظیمات تم RTL و فونت
+// Define Theme
 const theme = createTheme({
   direction: "rtl",
   typography: {
     fontFamily: "Vazir, Arial",
   },
   components: {
-    MuiCssBaseline: {
-      styleOverrides: `
-        @font-face {
-          font-family: 'Vazir';
-          font-style: normal;
-          font-display: swap;
-          src: url('/fonts/Vazir.woff2') format('woff2');
-        }
-      `,
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: "8px",
+        },
+      },
     },
-  },
-  palette: {
-    primary: {
-      main: "#BC6C25",
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "8px",
+        },
+      },
     },
   },
 });
 
-// کش RTL برای استایل‌ها
 const cacheRTL = createCache({
   key: "muirtl",
   stylisPlugins: [prefixer, rtlPlugin],
 });
 
-export default function RegisterPage() {
+// Validation Schema
+const registerSchema = z
+  .object({
+    fullName: z
+      .string()
+      .min(3, "نام و نام خانوادگی باید حداقل ۳ کاراکتر باشد."),
+    email: z.string().email("آدرس ایمیل معتبر نیست."),
+    password: z
+      .string()
+      .min(6, "رمز عبور باید حداقل ۶ کاراکتر باشد.")
+      .max(20, "رمز عبور نباید بیشتر از ۲۰ کاراکتر باشد."),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "رمز عبور و تأیید رمز عبور یکسان نیستند.",
+  });
+
+type RegisterFormData = z.infer<typeof registerSchema>;
+
+export default function RegisterPage(): JSX.Element {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
   });
 
-  const handleTogglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
-
-  const handleToggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword((prev) => !prev);
-  };
-
-  const handleSubmit = () => {
-    if (!formData.fullName.trim()) {
-      toast.error("لطفاً نام و نام خانوادگی خود را وارد کنید.");
-      return;
-    }
-
-    if (!formData.email.trim()) {
-      toast.error("لطفاً آدرس ایمیل خود را وارد کنید.");
-      return;
-    }
-
-    if (!formData.password.trim()) {
-      toast.error("لطفاً رمز عبور خود را وارد کنید.");
-      return;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("رمز عبور و تأیید رمز عبور یکسان نیستند.");
-      return;
-    }
-
+  const onSubmit = (data: RegisterFormData) => {
     toast.success("فرم با موفقیت ارسال شد!");
+    console.log("Form Data:", data);
   };
 
   return (
@@ -124,19 +120,21 @@ export default function RegisterPage() {
           >
             <span style={{ color: "#606C38" }}>لطفا موارد زیر را پر کنید</span>
           </Typography>
-          <Box component="form" sx={{ mt: 3 }}>
-            {/* فیلد نام و نام خانوادگی */}
+          <Box
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{ mt: 3 }}
+          >
+            {/* Full Name Field */}
             <TextField
               fullWidth
               label="نام و نام خانوادگی"
               placeholder="نام و نام خانوادگی خود را وارد کنید"
               margin="normal"
               variant="outlined"
-              required
-              value={formData.fullName}
-              onChange={(e) =>
-                setFormData({ ...formData, fullName: e.target.value })
-              }
+              {...register("fullName")}
+              error={!!errors.fullName}
+              helperText={errors.fullName?.message}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -148,7 +146,7 @@ export default function RegisterPage() {
               }}
             />
 
-            {/* فیلد ایمیل */}
+            {/* Email Field */}
             <TextField
               fullWidth
               label="آدرس ایمیل"
@@ -156,11 +154,9 @@ export default function RegisterPage() {
               type="email"
               margin="normal"
               variant="outlined"
-              required
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
+              {...register("email")}
+              error={!!errors.email}
+              helperText={errors.email?.message}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -172,7 +168,7 @@ export default function RegisterPage() {
               }}
             />
 
-            {/* فیلد رمز عبور */}
+            {/* Password Field */}
             <TextField
               fullWidth
               label="رمز عبور"
@@ -180,15 +176,15 @@ export default function RegisterPage() {
               type={showPassword ? "text" : "password"}
               margin="normal"
               variant="outlined"
-              required
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
+              {...register("password")}
+              error={!!errors.password}
+              helperText={errors.password?.message}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={handleTogglePasswordVisibility}>
+                    <IconButton
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
                       {showPassword ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
                   </InputAdornment>
@@ -196,7 +192,7 @@ export default function RegisterPage() {
               }}
             />
 
-            {/* فیلد تأیید رمز عبور */}
+            {/* Confirm Password Field */}
             <TextField
               fullWidth
               label="تأیید رمز عبور"
@@ -204,15 +200,15 @@ export default function RegisterPage() {
               type={showConfirmPassword ? "text" : "password"}
               margin="normal"
               variant="outlined"
-              required
-              value={formData.confirmPassword}
-              onChange={(e) =>
-                setFormData({ ...formData, confirmPassword: e.target.value })
-              }
+              {...register("confirmPassword")}
+              error={!!errors.confirmPassword}
+              helperText={errors.confirmPassword?.message}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={handleToggleConfirmPasswordVisibility}>
+                    <IconButton
+                      onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    >
                       {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
                   </InputAdornment>
@@ -220,11 +216,11 @@ export default function RegisterPage() {
               }}
             />
 
-            {/* دکمه ثبت نام */}
+            {/* Submit Button */}
             <Button
+              type="submit"
               fullWidth
               variant="contained"
-              onClick={handleSubmit}
               sx={{
                 mt: 3,
                 mb: 2,
@@ -238,7 +234,7 @@ export default function RegisterPage() {
               ثبت نام
             </Button>
 
-            {/* لینک ورود */}
+            {/* Login Link */}
             <Box sx={{ mt: 2, textAlign: "center" }}>
               <Typography variant="body2">
                 حساب کاربری دارید؟{" "}

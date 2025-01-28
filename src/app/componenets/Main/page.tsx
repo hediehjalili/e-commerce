@@ -10,35 +10,63 @@ import {
   IconButton,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useRouter } from "next/navigation";
 
-// Categories
-const categories = [
-  { name: "لپ تاپ", image: "/images/laptop.png" },
-  { name: "موبایل", image: "/images/mobile.png" },
-  { name: "تبلت", image: "/images/tablet.png" },
-  { name: "هدفون", image: "/images/10.png" },
+// تعریف نوع برای دسته‌بندی‌ها
+interface Category {
+  name: string;
+  image: string;
+  path: string;
+}
+
+// داده‌های دسته‌بندی‌ها
+const categories: Category[] = [
+  { name: "لپ تاپ", image: "/images/laptop.png", path: "/product/laptop" },
+  { name: "موبایل", image: "/images/mobile.png", path: "/product/mobile" },
+  { name: "تبلت", image: "/images/tablet.png", path: "/product/tablet" },
+  { name: "هدفون", image: "/images/10.png", path: "/product/headphone" },
 ];
 
-const hiddenCategories = [
-  { name: "ساعت هوشمند", image: "/images/watch.png" },
-  { name: "دوربین", image: "/images/camera.png" },
-  { name: "کنسول بازی", image: "/images/consolee.png" },
-  { name: "اسپیکر", image: "/images/speaker.png" },
+const hiddenCategories: Category[] = [
+  { name: "ساعت هوشمند", image: "/images/watch.png", path: "/product/watch" },
+  { name: "دوربین", image: "/images/camera.png", path: "/product/camera" },
+  {
+    name: "کنسول بازی",
+    image: "/images/consolee.png",
+    path: "/product/console",
+  },
+  { name: "اسپیکر", image: "/images/speaker.png", path: "/product/speaker" },
 ];
 
-// Main Component
-const Main = () => {
-  const [showMore, setShowMore] = useState(false);
+// کامپوننت اصلی
+const Main: React.FC = () => {
+  const [showMore, setShowMore] = useState<boolean>(false);
+  const router = useRouter();
+
+  const handleCategoryClick = (path: string) => {
+    router.push(path);
+  };
 
   return (
     <Box sx={{ py: 4, px: 2 }}>
-      {/* Main Categories */}
+      {/* عنوان دسته‌بندی‌ها */}
+      <Typography
+        variant="h5"
+        fontFamily="Vazir"
+        sx={{ mb: 2, textAlign: "center", color: "#606C38" }}
+      >
+        محصولات
+      </Typography>
+
+      {/* دسته‌بندی‌های اصلی */}
       <Grid container spacing={2}>
         {categories.map((category, i) => (
           <Grid item xs={12} sm={6} md={3} key={i}>
             <Card
+              onClick={() => handleCategoryClick(category.path)}
               sx={{
                 borderRadius: "12px",
+                cursor: "pointer",
                 "&:hover": { transform: "translateY(-5px)" },
                 transition: "0.3s",
               }}
@@ -66,14 +94,16 @@ const Main = () => {
         ))}
       </Grid>
 
-      {/* Hidden Categories */}
+      {/* دسته‌بندی‌های پنهان */}
       <Collapse in={showMore}>
         <Grid container spacing={2} sx={{ mt: 2 }}>
           {hiddenCategories.map((category, i) => (
             <Grid item xs={12} sm={6} md={3} key={i}>
               <Card
+                onClick={() => handleCategoryClick(category.path)}
                 sx={{
                   borderRadius: "12px",
+                  cursor: "pointer",
                   "&:hover": { transform: "translateY(-5px)" },
                   transition: "0.3s",
                 }}
@@ -102,7 +132,7 @@ const Main = () => {
         </Grid>
       </Collapse>
 
-      {/* Toggle Button */}
+      {/* دکمه نمایش بیشتر */}
       <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
         <IconButton
           onClick={() => setShowMore((prev) => !prev)}

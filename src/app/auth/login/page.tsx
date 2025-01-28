@@ -1,7 +1,9 @@
 "use client";
+
+import React, { useState } from "react";
 import {
-  CssBaseline,
   Box,
+  CssBaseline,
   Typography,
   TextField,
   Button,
@@ -14,39 +16,32 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import { prefixer } from "stylis";
 import rtlPlugin from "stylis-plugin-rtl";
-import Image from "next/image";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useState } from "react";
+import Image from "next/image";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
+// Theme Configuration
 const theme = createTheme({
   direction: "rtl",
   typography: {
     fontFamily: "Vazir, Arial",
   },
   components: {
-    MuiCssBaseline: {
-      styleOverrides: `
-          @font-face {
-            font-family: 'Vazir';
-            font-style: normal;
-            font-display: swap;
-            src: url('/fonts/Vazir.woff2') format('woff2');
-          }
-        `,
-    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          borderRadius: "8px", // گوشه‌های گرد برای تمامی TextFieldها
+          borderRadius: "8px",
         },
       },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: "8px", // گوشه‌های گرد برای تمامی دکمه‌ها
+          borderRadius: "8px",
         },
       },
     },
@@ -58,11 +53,34 @@ const cacheRTL = createCache({
   stylisPlugins: [prefixer, rtlPlugin],
 });
 
+// Validation Schema
+const loginSchema = z.object({
+  email: z.string().email("ایمیل معتبر وارد کنید."),
+  password: z
+    .string()
+    .min(6, "رمز عبور باید حداقل ۶ کاراکتر باشد.")
+    .max(20, "رمز عبور نباید بیش از ۲۰ کاراکتر باشد."),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
+
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
+
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
+  };
+
+  const onSubmit = (data: LoginFormData) => {
+    console.log("Form Data:", data);
   };
 
   return (
@@ -72,8 +90,8 @@ export default function LoginPage() {
         <Box
           sx={{
             display: "flex",
-            minHeight: "100vh", // Full height
-            bgcolor: "background.default", // Background color
+            minHeight: "100vh",
+            bgcolor: "background.default",
           }}
         >
           {/* Left Side - Form */}
@@ -102,19 +120,23 @@ export default function LoginPage() {
             </Box>
             <Box
               component="form"
+              onSubmit={handleSubmit(onSubmit)}
               sx={{
                 mt: 2,
                 width: "100%",
                 maxWidth: 400,
               }}
             >
-              {/* Email Field with Icon at End */}
+              {/* Email Field */}
               <TextField
                 fullWidth
                 label="Email"
                 placeholder="ایمیل خود را وارد کنید"
                 margin="normal"
                 variant="outlined"
+                {...register("email")}
+                error={!!errors.email}
+                helperText={errors.email?.message}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -124,7 +146,7 @@ export default function LoginPage() {
                 }}
               />
 
-              {/* Password Field with Eye Icon */}
+              {/* Password Field */}
               <TextField
                 fullWidth
                 label="Password"
@@ -132,6 +154,9 @@ export default function LoginPage() {
                 type={showPassword ? "text" : "password"}
                 margin="normal"
                 variant="outlined"
+                {...register("password")}
+                error={!!errors.password}
+                helperText={errors.password?.message}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -144,6 +169,7 @@ export default function LoginPage() {
               />
 
               <Button
+                type="submit"
                 fullWidth
                 variant="contained"
                 sx={{
@@ -152,7 +178,7 @@ export default function LoginPage() {
                   padding: 2,
                   backgroundColor: "#606C38",
                   "&:hover": {
-                    backgroundColor: "#a55b1d",
+                    backgroundColor: "#4a5530",
                   },
                 }}
               >

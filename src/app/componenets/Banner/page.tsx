@@ -2,8 +2,9 @@
 
 import { Box, Typography, Button } from "@mui/material";
 import Image from "next/image";
+import { JSX } from "react";
 
-export default function Banner() {
+export default function Banner(): JSX.Element {
   return (
     <Box
       sx={{
