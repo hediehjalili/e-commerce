@@ -36,6 +36,20 @@ const theme = createTheme({
           }
         `,
     },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: "8px", // گوشه‌های گرد برای تمامی TextFieldها
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "8px", // گوشه‌های گرد برای تمامی دکمه‌ها
+        },
+      },
+    },
   },
 });
 
