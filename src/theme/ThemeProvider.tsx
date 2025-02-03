@@ -1,10 +1,10 @@
 "use client";
 
+import createCache from "@emotion/cache"; // اضافه کردن ایمپورت createCache
 import { prefixer } from "stylis";
 import stylisRTLPlugin from "stylis-plugin-rtl";
-import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
-import { JSX, PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import { CssBaseline, ThemeProvider as MuiThemeProvider } from "@mui/material";
 import Theme from "./theme";
 
