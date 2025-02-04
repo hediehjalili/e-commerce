@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from "react";
-import AdminLayout from "../_layout";
+import AdminLayout from "../layout";
 import { Typography, Button, Box, Grid, TextField } from "@mui/material";
 
 // Define the Category interface

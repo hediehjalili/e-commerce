@@ -25,6 +25,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 // Define Theme
 const theme = createTheme({
@@ -78,6 +79,8 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 export default function RegisterPage(): JSX.Element {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -87,9 +90,39 @@ export default function RegisterPage(): JSX.Element {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (data: RegisterFormData) => {
-    toast.success("فرم با موفقیت ارسال شد!");
-    console.log("Form Data:", data);
+  const onSubmit = async (data: RegisterFormData) => {
+    setLoading(true);
+
+    try {
+      // ارسال اطلاعات فرم به سرور برای ثبت‌نام
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // اگر ثبت‌نام موفق بود، توکن را ذخیره می‌کنیم
+        localStorage.setItem("token", result.token);
+
+        // نمایش پیام موفقیت
+        toast.success("ثبت‌نام با موفقیت انجام شد!");
+
+        // هدایت به صفحه ورود
+        router.push("/auth/login");
+      } else {
+        // نمایش خطا در صورت ناموفق بودن ثبت‌نام
+        toast.error(result.message || "ثبت‌نام ناموفق بود.");
+      }
+    } catch (error) {
+      toast.error("خطا در ارتباط با سرور.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -230,8 +263,9 @@ export default function RegisterPage(): JSX.Element {
                   backgroundColor: "#BC6C25",
                 },
               }}
+              disabled={loading}
             >
-              ثبت نام
+              {loading ? "در حال ثبت‌نام..." : "ثبت نام"}
             </Button>
 
             {/* Login Link */}

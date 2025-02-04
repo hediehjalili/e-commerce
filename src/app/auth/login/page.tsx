@@ -64,11 +64,12 @@ export default function LoginPage() {
   });
 
   useEffect(() => {
+    // چک کردن اینکه آیا کاربر قبلاً وارد شده است یا نه
     const token = localStorage.getItem("token");
     if (token) {
-      router.push("/admin");
+      router.push("/admin"); // هدایت به صفحه ادمین در صورت موجود بودن توکن
     }
-  }, []);
+  }, [router]);
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -76,9 +77,10 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
-    setErrorMessage("");
+    setErrorMessage(""); // در صورت بروز خطا، پیام خطا را پاک می‌کنیم
 
     try {
+      // ارسال درخواست به سرور برای ورود
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
@@ -90,15 +92,17 @@ export default function LoginPage() {
       const result = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("token", result.token); // ذخیره توکن در localStorage
-        router.push("/admin"); // هدایت به صفحه ادمین
+        // ذخیره توکن در localStorage و هدایت به صفحه ادمین
+        localStorage.setItem("token", result.token);
+        router.push("/admin");
       } else {
+        // در صورت بروز خطا، پیام خطا را نمایش می‌دهیم
         setErrorMessage(result.message || "ورود ناموفق بود.");
       }
     } catch (error) {
       setErrorMessage("خطا در ارتباط با سرور.");
     } finally {
-      setLoading(false);
+      setLoading(false); // در پایان بارگذاری دکمه را فعال می‌کنیم
     }
   };
 
@@ -149,7 +153,7 @@ export default function LoginPage() {
               {/* فیلد ایمیل */}
               <TextField
                 fullWidth
-                label="Email"
+                label="ایمیل"
                 placeholder="ایمیل خود را وارد کنید"
                 margin="normal"
                 variant="outlined"
@@ -168,7 +172,7 @@ export default function LoginPage() {
               {/* فیلد رمز عبور */}
               <TextField
                 fullWidth
-                label="Password"
+                label="رمز عبور"
                 placeholder="رمز عبور را وارد کنید"
                 type={showPassword ? "text" : "password"}
                 margin="normal"
@@ -187,6 +191,7 @@ export default function LoginPage() {
                 }}
               />
 
+              {/* نمایش پیام خطا */}
               {errorMessage && (
                 <Typography color="error" sx={{ mt: 1, mb: 1 }}>
                   {errorMessage}
