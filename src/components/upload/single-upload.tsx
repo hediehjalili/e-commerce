@@ -2,7 +2,7 @@
 import { Box, CircularProgress, IconButton, Paper, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { upload } from "@/api/client-api/upload";
+import { upload } from "@/app/api/client-api/upload";
 import { useAuth } from "../AuthProvider";
 type Props = {
   name: string;

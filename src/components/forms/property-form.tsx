@@ -4,7 +4,7 @@ import React, { useActionState, useState } from "react";
 import SubmitButton from "../SubmitButton";
 import { createOrUpdatePropertyAction } from "@/actions/property";
 import { Remove } from "@mui/icons-material";
-import { IProperty, IPropertyOption } from "@/api/server-api/types";
+import { IProperty, IPropertyOption } from "@/app/api/server-api/types";
 import AIForm from "./AIForm";
 type Props = {
   defaultValue?: IProperty;

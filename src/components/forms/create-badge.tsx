@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import SubmitButton from "../SubmitButton";
 import { createOrUpdateBadgeAction } from "@/actions/badges";
 import SingleUpload from "../upload/single-upload";
-import { IBadge } from "@/api/server-api/types";
+import { IBadge } from "@/app/api/server-api/types";
 
 type CreateBadgeFormProps = { defaultValue?: Partial<IBadge> };
 

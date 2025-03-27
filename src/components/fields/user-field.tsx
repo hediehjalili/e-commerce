@@ -1,6 +1,6 @@
 "use client";
-import { useUserQuery } from "@/api/client-api/user";
-import { IUser } from "@/api/server-api/types";
+import { useUserQuery } from "@/app/api/client-api/user";
+import { IUser } from "@/app/api/server-api/types";
 import React, { useState } from "react";
 import AsyncListField from "./async-list-filed";
 

@@ -43,7 +43,7 @@ export default function LoginPage() {
             }}
           >
             <Image
-              src="/pic.png"
+              src="/images/admin.png"
               alt="Login Background"
               layout="fill"
               objectFit="cover"

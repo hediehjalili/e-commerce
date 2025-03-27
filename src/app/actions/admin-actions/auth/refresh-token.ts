@@ -1,6 +1,6 @@
 "use server";
 
-import { apiFetch } from "@/api/server-api/base";
+import { apiFetch } from "@/app/api/server-api/base";
 import { AUTH_BASE_URL } from "@/config.server";
 import { auth, createSession, deleteSession } from "@/lib/session";
 import { NextResponse } from "next/server"; // استفاده از NextResponse برای هدایت صحیح

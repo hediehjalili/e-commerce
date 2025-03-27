@@ -1,7 +1,7 @@
 "use client";
 
 import { createOrUpdateProductAction } from "@/actions/products";
-import { IProduct } from "@/api/server-api/types";
+import { IProduct } from "@/app/api/server-api/types";
 import { Stack } from "@mui/material";
 import React, { useActionState } from "react";
 import AIForm from "./AIForm";

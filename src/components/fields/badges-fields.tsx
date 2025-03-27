@@ -1,4 +1,4 @@
-import { IBadge } from "@/api/server-api/types";
+import { IBadge } from "@/app/api/server-api/types";
 import React, { useState } from "react";
 import MultiAsyncListField from "./multi-async-list-field";
 import { useBadgesQuery } from "@/api/client-api/badges";

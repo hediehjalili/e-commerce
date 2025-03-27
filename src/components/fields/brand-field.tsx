@@ -1,8 +1,8 @@
 "use client";
-import { IBrand } from "@/api/server-api/types";
+import { IBrand } from "@/app/api/server-api/types";
 import React from "react";
 import AsyncListField from "./async-list-filed";
-import { useBrandsQuery } from "@/api/client-api/brand";
+import { useBrandsQuery } from "@/app/api/client-api/brand";
 
 type Props = {
   name: string;

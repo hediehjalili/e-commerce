@@ -4,7 +4,7 @@ import { Stack } from "@mui/material";
 import { useActionState } from "react";
 import SubmitButton from "../SubmitButton";
 import AIForm from "./AIForm";
-import { IBrand } from "@/api/server-api/types";
+import { IBrand } from "@/app/api/server-api/types";
 
 type BrandFormType = {
   brand?: IBrand;

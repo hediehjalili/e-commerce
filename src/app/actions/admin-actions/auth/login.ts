@@ -32,5 +32,5 @@ export async function loginAction(state: LoginFormState, formData: FormData) {
     accessToken: data.tokens.accessToken,
     refreshToken: data.tokens.refreshToken,
   });
-  redirect("/dashboard");
+  redirect("/admin/dashboard");
 }
