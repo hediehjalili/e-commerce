@@ -116,9 +116,10 @@ export default function RegisterPage(): JSX.Element {
         router.push("/auth/login");
       } else {
         // نمایش خطا در صورت ناموفق بودن ثبت‌نام
-        toast.error(result.message || "ثبت‌نام ناموفق بود.");
+        toast.error(result.error || "ثبت‌نام ناموفق بود.");
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      console.error(error);
       toast.error("خطا در ارتباط با سرور.");
     } finally {
       setLoading(false);
