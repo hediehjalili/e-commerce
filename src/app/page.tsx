@@ -5,11 +5,11 @@ import Main from "./componenets/Main/page";
 
 export default function HomePage() {
   return (
-    <div>
-      <Header />
+<>
+    <Header />
       <Banner />
       <Main />
       <Footer />
-    </div>
+      </>
   );
 }
