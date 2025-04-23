@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import {
   Toolbar,
   IconButton,
@@ -32,204 +32,189 @@ const Header: React.FC = () => {
 
   const drawerContent = (
     <Box sx={{ width: 250, p: 2 }}>
-      {/* لوگو */}
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-        <Image 
-          src="/logo.svg" 
-          alt="لوگو" 
-          width={100} 
-          height={40}
-          priority
-          style={{ objectFit: 'contain' }}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = '/fallback-logo.png';
-          }}
-        />
+      {/* Logo */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          mb: 2,
+        }}
+      >
+        <Image src="/logo.svg" alt="لوگو" width={100} height={40} priority />
         <Typography
           variant="h6"
-          sx={{ color: "#606C38", fontFamily: "Vazir", fontWeight: "bold" }}
+          sx={{
+            color: "#606C38",
+            fontFamily: "Vazir",
+            fontWeight: "bold",
+          }}
         >
           فروشگاه وین
         </Typography>
       </Box>
 
-      {/* نوار جستجو */}
-      <Box sx={{ 
-        display: "flex", 
-        alignItems: "center", 
-        backgroundColor: "white", 
-        borderRadius: "8px", 
-        border: "1px solid #e0e0e0", 
-        mb: 2, 
-        p: 1 
-      }}>
+      {/* Search Bar */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          backgroundColor: "white",
+          borderRadius: "8px",
+          border: "1px solid #e0e0e0",
+          mb: 2,
+          p: 1,
+        }}
+      >
         <InputBase
           placeholder="جستجوی محصولات..."
-          sx={{ flex: 1, px: 1, fontSize: "0.9rem", fontFamily: "Vazir" }}
+          sx={{
+            flex: 1,
+            px: 1,
+            fontSize: "0.9rem",
+            fontFamily: "Vazir",
+          }}
         />
         <IconButton sx={{ color: "#606C38" }}>
           <SearchIcon fontSize="medium" />
         </IconButton>
       </Box>
 
-      {/* منو آیتم‌ها */}
+      {/* User Icons */}
       <List>
-        <ListItem button>
+        <ListItem>
           <ListItemIcon>
             <AccountCircleIcon sx={{ color: "#606C38" }} />
           </ListItemIcon>
-          <ListItemText 
-            primary="پروفایل" 
-            primaryTypographyProps={{ fontFamily: "Vazir" }}
-          />
+          <ListItemText primary="پروفایل" sx={{ fontFamily: "Vazir" }} />
         </ListItem>
         <Divider />
-        <ListItem button>
+        <ListItem>
           <ListItemIcon>
             <FavoriteBorderIcon sx={{ color: "#606C38" }} />
           </ListItemIcon>
-          <ListItemText 
-            primary="علاقه‌مندی‌ها" 
-            primaryTypographyProps={{ fontFamily: "Vazir" }}
-          />
+          <ListItemText primary="علاقه‌مندی‌ها" sx={{ fontFamily: "Vazir" }} />
         </ListItem>
         <Divider />
-        <ListItem button>
+        <ListItem>
           <ListItemIcon>
             <ShoppingCartIcon sx={{ color: "#606C38" }} />
           </ListItemIcon>
-          <ListItemText 
-            primary="سبد خرید" 
-            primaryTypographyProps={{ fontFamily: "Vazir" }}
-          />
+          <ListItemText primary="سبد خرید" sx={{ fontFamily: "Vazir" }} />
         </ListItem>
       </List>
     </Box>
   );
 
   return (
-    <AppBar position="static" color="transparent" elevation={0}>
+    <AppBar position="sticky" color="transparent" elevation={0}>
       <Container maxWidth="xl">
-        <Toolbar sx={{ 
-          display: "flex", 
-          flexDirection: { xs: "row", sm: "row" }, 
-          alignItems: "center", 
-          justifyContent: "space-between", 
-          gap: { xs: 1, sm: 4 }, 
-          py: 2 
-        }}>
-          {/* منوی همبرگری */}
+        <Toolbar
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "row", sm: "row" },
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: { xs: 1, sm: 4 },
+            py: 2,
+          }}
+        >
+          {/* Hamburger Menu (Only on Mobile) */}
           <IconButton
-            sx={{ 
-              display: { xs: "block", sm: "none" }, 
-              color: "#606C38",
-              '&:hover': { backgroundColor: 'rgba(96, 108, 56, 0.1)' } 
-            }}
+            sx={{ display: { xs: "block", sm: "none" }, color: "#606C38" }}
             onClick={() => toggleDrawer(true)}
           >
             <MenuIcon />
           </IconButton>
 
-          {/* لوگو */}
-          <Box sx={{ 
-            display: "flex", 
-            alignItems: "center", 
-            gap: 1, 
-            flexGrow: { xs: 1, sm: 0 } 
-          }}>
+          {/* Logo */}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              flexGrow: { xs: 1, sm: 0 },
+            }}
+          >
             <Image
               src="/logo.svg"
               alt="لوگو"
               width={100}
               height={40}
               priority
-              style={{ objectFit: 'contain' }}
             />
             <Typography
               variant="h6"
-              sx={{ 
-                color: "#606C38", 
-                fontFamily: "Vazir", 
-                fontWeight: "bold", 
-                fontSize: { xs: "0.9rem", sm: "1.25rem" } 
+              sx={{
+                color: "#606C38",
+                fontFamily: "Vazir",
+                fontWeight: "bold",
+                fontSize: { xs: "0.9rem", sm: "1.25rem" },
               }}
             >
               فروشگاه وین
             </Typography>
           </Box>
 
-          {/* نوار جستجو (دسکتاپ) */}
-          <Box sx={{ 
-            display: { xs: "none", sm: "flex" }, 
-            alignItems: "center", 
-            backgroundColor: "white", 
-            borderRadius: "8px", 
-            border: "1px solid #e0e0e0", 
-            flexGrow: 1, 
-            maxWidth: "500px", 
-            flexDirection: "row-reverse",
-            transition: '0.3s',
-            '&:hover': { boxShadow: 1 } 
-          }}>
+          {/* Search Bar (Only on Desktop) */}
+          <Box
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              alignItems: "center",
+              backgroundColor: "white",
+              borderRadius: "8px",
+              border: "1px solid #e0e0e0",
+              flexGrow: 1,
+              maxWidth: "500px",
+              flexDirection: "row-reverse",
+            }}
+          >
             <InputBase
               placeholder="جستجوی محصولات..."
-              sx={{ flex: 1, px: 2, py: 1, fontSize: "0.9rem", fontFamily: "Vazir" }}
+              sx={{
+                flex: 1,
+                px: 2,
+                py: 1,
+                fontSize: "0.9rem",
+                fontFamily: "Vazir",
+              }}
             />
-            <IconButton sx={{ 
-              color: "#606C38", 
-              p: 1,
-              '&:hover': { backgroundColor: 'rgba(96, 108, 56, 0.1)' } 
-            }}>
+            <IconButton sx={{ color: "#606C38", p: 1 }}>
               <SearchIcon fontSize="medium" />
             </IconButton>
           </Box>
 
-          {/* آیکون‌های کاربر */}
+          {/* User Icons (Only on Desktop) */}
           <Stack
             direction="row"
             spacing={2}
-            sx={{ 
-              display: { xs: "none", sm: "flex" }, 
-              justifyContent: "flex-end", 
-              flexWrap: "wrap" 
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              justifyContent: "flex-end",
+              flexWrap: "wrap",
             }}
           >
             <IconButton
-              sx={{ 
-                color: "#606C38",
-                '&:hover': { backgroundColor: 'rgba(96, 108, 56, 0.1)' } 
-              }}
+              sx={{ color: "#606C38" }}
               onClick={() => (window.location.href = "/auth/login")}
             >
               <AccountCircleIcon fontSize="medium" />
             </IconButton>
-            <IconButton sx={{ 
-              color: "#606C38",
-              '&:hover': { backgroundColor: 'rgba(96, 108, 56, 0.1)' } 
-            }}>
+            <IconButton sx={{ color: "#606C38" }}>
               <FavoriteBorderIcon fontSize="medium" />
             </IconButton>
-            <IconButton sx={{ 
-              color: "#606C38",
-              '&:hover': { backgroundColor: 'rgba(96, 108, 56, 0.1)' } 
-            }}>
+            <IconButton sx={{ color: "#606C38" }}>
               <ShoppingCartIcon fontSize="medium" />
             </IconButton>
           </Stack>
         </Toolbar>
       </Container>
 
-      {/* دراور */}
+      {/* Drawer */}
       <Drawer
         anchor="left"
         open={drawerOpen}
         onClose={() => toggleDrawer(false)}
-        PaperProps={{
-          sx: {
-            backgroundColor: '#f5f5f5',
-            boxShadow: 3
-          }
-        }}
       >
         {drawerContent}
       </Drawer>
